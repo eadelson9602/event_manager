@@ -36,11 +36,11 @@ If `NEXT_PUBLIC_API_URL` is not defined, `http://localhost:3000` will be used by
 
 ### Development
 
+The application will be available at `http://localhost:3001` (or the port defined in `PORT` in `.env.local`).
+
 ```bash
 npm run dev
 ```
-
-The application will be available at `http://localhost:3001` (or the port defined in `PORT` in `.env.local`).
 
 ### Production
 
