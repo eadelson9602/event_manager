@@ -49,6 +49,36 @@ npm run build
 npm start
 ```
 
+## Testing
+
+The project uses **Jest** and **React Testing Library** for testing.
+
+### Run Tests
+
+Run all tests:
+
+```bash
+npm test
+```
+
+### Watch Mode
+
+Run tests in watch mode (automatically re-runs tests on file changes):
+
+```bash
+npm run test:watch
+```
+
+### Coverage
+
+Generate test coverage report:
+
+```bash
+npm run test:coverage
+```
+
+The coverage report will show which parts of the codebase are covered by tests.
+
 ## Project Structure
 
 ```
@@ -116,6 +146,8 @@ event_maganer/
 - **Sonner** (Toast Notifications)
 - **Fetch API** (HTTP Client)
 - **shadcn/ui** (UI Components)
+- **Jest** (Testing Framework)
+- **React Testing Library** (Component Testing)
 
 ## Environment Variables
 
