@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Event Manager - Frontend
 
-## Getting Started
+Aplicación de escritorio desarrollada con Next.js para la gestión de eventos corporativos.
 
-First, run the development server:
+## Arquitectura
+
+El proyecto implementa **Arquitectura Hexagonal** con las siguientes capas:
+
+- **Domain**: Entidades y interfaces de repositorios
+- **Application**: Casos de uso y servicios
+- **Infrastructure**: Implementaciones HTTP, configuración
+- **Presentation**: Componentes, páginas, stores (Zustand)
+
+## Requisitos
+
+- Node.js 18+ 
+- npm o yarn
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Configuración
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3000
+```
+
+Si no defines `NEXT_PUBLIC_API_URL`, se usará `http://localhost:3000` por defecto.
+
+## Ejecución
+
+### Desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en `http://localhost:3001` (o el puerto definido en `PORT` en `.env.local`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Producción
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Estructura del Proyecto
 
-To learn more about Next.js, take a look at the following resources:
+```
+event_maganer/
+├── app/                          # Next.js App Router
+│   ├── login/                    # Pantalla de login
+│   ├── register/                 # Pantalla de registro
+│   ├── events/                   # Pantallas de eventos
+│   │   ├── page.tsx              # Lista de eventos
+│   │   ├── new/                  # Crear evento
+│   │   └── [id]/                 # Detalle y edición
+│   └── layout.tsx
+├── src/
+│   ├── domain/                   # Capa de dominio
+│   │   ├── entities/             # Entidades del dominio
+│   │   └── repositories/         # Interfaces de repositorios
+│   ├── application/              # Capa de aplicación
+│   │   ├── use-cases/            # Casos de uso
+│   │   └── services/             # Servicios de aplicación
+│   ├── infrastructure/           # Capa de infraestructura
+│   │   ├── config/               # Configuración
+│   │   ├── http/                 # Cliente HTTP
+│   │   └── repositories/         # Implementaciones de repositorios
+│   └── presentation/            # Capa de presentación
+│       ├── components/           # Componentes reutilizables
+│       └── stores/                # Stores de Zustand
+└── public/                       # Archivos estáticos
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Características
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Pantallas Implementadas
 
-## Deploy on Vercel
+1. **Login Screen** (`/login`)
+   - Campos: Email y Contraseña
+   - Validación de campos obligatorios
+   - Manejo de errores
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **Registration Screen** (`/register`)
+   - Campos: Nombre, Email y Contraseña
+   - Validación de contraseña (mínimo 8 caracteres, mayúscula, número, carácter especial)
+   - Manejo de errores
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Event List Screen** (`/events`)
+   - Lista todos los eventos
+   - Muestra nombre y fecha de cada evento
+   - Botón flotante para crear nuevo evento
+   - Navegación al detalle al hacer clic
+
+4. **Event Detail Screen** (`/events/[id]`)
+   - Muestra todos los detalles del evento
+   - Botones para Editar y Eliminar
+   - Confirmación antes de eliminar
+
+5. **Add/Edit Event Screen** (`/events/new` y `/events/[id]/edit`)
+   - Formulario con campos: nombre, fecha, descripción, lugar
+   - Selector de fecha y hora
+   - Validación de campos obligatorios
+   - Guardado y redirección a la lista
+
+### State Management
+
+- **Zustand** para gestión de estado
+- Stores separados para autenticación y eventos
+- Manejo de estados de carga y errores
+
+### Autenticación
+
+- JWT almacenado en `localStorage`
+- Protección de rutas con `ProtectedRoute`
+- Redirección automática según estado de autenticación
+
+### Manejo de Errores
+
+- Alertas de error visibles al usuario
+- Validación de formularios en cliente
+- Mensajes de error del servidor
+
+## Tecnologías
+
+- **Next.js 16** (App Router)
+- **TypeScript**
+- **Tailwind CSS v4**
+- **Zustand** (State Management)
+- **Fetch API** (HTTP Client)
+
+## Variables de Entorno
+
+- `NEXT_PUBLIC_API_URL`: URL base de la API (default: `http://localhost:3000`)
+- `PORT`: Puerto del servidor de desarrollo (default: `3000`)
+
+## Notas
+
+- La aplicación requiere que el backend esté ejecutándose en el puerto configurado
+- Todas las rutas de eventos requieren autenticación JWT
+- El token se almacena en `localStorage` y se incluye automáticamente en las peticiones
